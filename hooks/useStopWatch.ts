@@ -35,9 +35,8 @@ export const useStopWatch = (durationInSeconds: number, onFinish?: () => void) =
   }, []);
 
   const restart = useCallback(() => {
-    if (count === 0) {
-      start();
-    }
+    stop();
+    setCount(durationInSeconds);
   }, []);
 
   useEffect(() => {

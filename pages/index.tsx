@@ -1,9 +1,7 @@
 import { GameTimer } from "components/GameTimer/GameTimer";
-import { GameContext, GameContextProvider } from "context/GameContext";
-import { useStopWatch } from "hooks/useStopWatch";
+import { GameInput } from "components/GameInput/GameInput";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useCallback, useContext, useEffect, useState } from "react";
 
 const Home: NextPage = () => {
   return (
@@ -18,6 +16,7 @@ const Home: NextPage = () => {
         <h1 className="text-4xl">Word typing game</h1>
 
         <GameTimer />
+        <GameInput />
       </main>
     </>
   );
