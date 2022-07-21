@@ -1,34 +1,43 @@
+import { GameArea } from "components/GameInput/GameArea";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
-import styles from "../styles/Home.module.css";
-
-// SSR enabled, all data is pre-fetched in the server
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div className="min-h-screen overflow-auto flex flex-col">
       <Head>
-        <title>Next.js Strapi CMS template</title>
+        <title>Word typing game!</title>
         <meta name="description" content="By Juan Rebella" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Next.js + Strapi template</h1>
+      <main className="flex flex-col max-w-[800px] w-full items-center m-auto mt-8 px-4">
+        <h1 className="text-4xl text-center mb-4">Word typing game</h1>
 
-        <ul className="p-8 shadow-lg border-2 m-4">
-          <h2 className="text-xl font-bold">Tech stack</h2>
-          <li>Next.js</li>
-          <li>Typescript</li>
-          <li>Strapi v4</li>
-          <li>GraphQL + @strapi/plugin-graphql</li>
-          <li>Apollo GraphQL Client</li>
-          <li>Tailwind CSS</li>
-          <li>GraphQL Code Generator</li>
-        </ul>
+        <GameArea />
       </main>
+
+      <footer className="p-4">
+        By{" "}
+        <a
+          className="text-blue-700 hover:text-blue-500 underline"
+          href="https://www.juanrebella.dev/"
+          target={"_blank"}
+          rel="noreferrer"
+        >
+          Juan Rebella
+        </a>{" "}
+        -{" "}
+        <a
+          className="text-blue-700 hover:text-blue-500 underline"
+          href="https://github.com/JRebella/typing-game"
+          target={"_blank"}
+          rel="noreferrer"
+        >
+          Github
+        </a>{" "}
+        - 2022
+      </footer>
     </div>
   );
 };
