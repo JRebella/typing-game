@@ -1,5 +1,5 @@
 import { CONFIG } from "config/config";
-import { createContext, PropsWithChildren, useState } from "react";
+import { createContext, PropsWithChildren, useMemo, useState } from "react";
 import { shuffle } from "lodash";
 
 interface GameContextType {
@@ -8,8 +8,9 @@ interface GameContextType {
   currentWord: string;
   currentWordIndex: number;
 
-  correctWords: string[];
-  incorrectWords: IncorrectWord[];
+  submittedWords: WordResult[];
+  correctWords: number;
+  incorrectWords: number;
 
   submitWord: (userInput: string) => void;
   startGame: () => void;
@@ -17,9 +18,10 @@ interface GameContextType {
   restartGame: () => void;
 }
 
-interface IncorrectWord {
+interface WordResult {
   word: string;
   userInput: string;
+  isCorrect: boolean;
 }
 
 type GameState = "waiting" | "started" | "finished";
@@ -32,8 +34,15 @@ export const GameContextProvider = ({ children }: PropsWithChildren<{}>) => {
   const [wordBank, setWordBank] = useState<string[]>(CONFIG.GAME.WORD_BANK);
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0);
 
-  const [correctWords, setCorrectWords] = useState<string[]>([]);
-  const [incorrectWords, setIncorrectWords] = useState<IncorrectWord[]>([]);
+  const [submittedWords, setSubmittedWords] = useState<WordResult[]>([]);
+  const correctWords = useMemo(
+    () => submittedWords.filter(({ isCorrect }) => isCorrect).length,
+    [submittedWords]
+  );
+  const incorrectWords = useMemo(
+    () => submittedWords.filter(({ isCorrect }) => !isCorrect).length,
+    [submittedWords]
+  );
 
   const submitWord = (userInput: string) => {
     // if (gameState === "waiting") {
@@ -41,17 +50,14 @@ export const GameContextProvider = ({ children }: PropsWithChildren<{}>) => {
     // }
     const currentWord = wordBank[currentWordIndex];
     console.log(userInput);
-    if (currentWord === userInput) {
-      setCorrectWords((correctWords) => [...correctWords, currentWord]);
-    } else {
-      setIncorrectWords((incorrectWords) => [
-        ...incorrectWords,
-        {
-          word: currentWord,
-          userInput,
-        },
-      ]);
-    }
+    setSubmittedWords((words) => [
+      ...words,
+      {
+        word: currentWord,
+        isCorrect: currentWord === userInput,
+        userInput,
+      },
+    ]);
 
     setCurrentWordIndex((current) => current + 1);
   };
@@ -67,14 +73,14 @@ export const GameContextProvider = ({ children }: PropsWithChildren<{}>) => {
   const restartGame = () => {
     setGameState("waiting");
     setCurrentWordIndex(0);
-    setCorrectWords([]);
-    setIncorrectWords([]);
+    setSubmittedWords([]);
     setWordBank(shuffle(CONFIG.GAME.WORD_BANK));
   };
 
   return (
     <GameContext.Provider
       value={{
+        submittedWords,
         correctWords,
         incorrectWords,
         wordBank,

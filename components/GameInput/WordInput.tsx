@@ -15,7 +15,8 @@ export const WordInput = memo(
 
     return (
       <input
-        className="border-2 border-gray-800"
+        className="border-y-2 border-gray-900 bg-lime-300 hover:bg-lime-200 text-center text-lg placeholder-slate-500"
+        placeholder={gameState === "waiting" ? "Start typing here..." : ""}
         ref={ref}
         disabled={gameState === "finished"}
         onChange={onChange}

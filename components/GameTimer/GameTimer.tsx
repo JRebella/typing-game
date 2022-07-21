@@ -3,6 +3,8 @@ import { GameContext } from "context/GameContext";
 import { useStopWatch } from "hooks/useStopWatch";
 import { forwardRef, useContext, useEffect } from "react";
 
+import styles from "./styles.module.scss";
+
 export const GameTimer = forwardRef<HTMLDivElement, {}>(function GameTimer({}, ref) {
   const { gameState, restartGame } = useContext(GameContext);
 
@@ -15,9 +17,10 @@ export const GameTimer = forwardRef<HTMLDivElement, {}>(function GameTimer({}, r
   }, [gameState]);
 
   return (
-    <div className="mt-4 p-4 border-red-400 border-4">
-      <div>Count: {count}</div>
+    <div className={styles.container}>
+      <span>{count}</span>
       <button
+        className="border-2 px-1 border-slate-900 rounded bg-red-200 font-bold hover:bg-red-300"
         onClick={() => {
           restart();
           restartGame();

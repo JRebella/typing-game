@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { GameContext } from "context/GameContext";
 import {
   ChangeEventHandler,
@@ -13,24 +14,37 @@ interface Props extends ComponentPropsWithoutRef<"div"> {
 }
 
 export const WordBox: FunctionComponent<Props> = ({ inputValue, ...rest }) => {
-  const { wordBank, gameState, currentWordIndex } = useContext(GameContext);
+  const { wordBank, gameState, currentWordIndex, submittedWords } =
+    useContext(GameContext);
 
   return (
-    <div className="flex flex-wrap border-2 max-w-[800px]" {...rest}>
+    <div className="flex flex-wrap border-x-2 text-lg select-none bg-gray-50" {...rest}>
+      {submittedWords.map(({ word, isCorrect }, index) => {
+        return (
+          <span
+            className={classNames("px-1 pb-2", {
+              "text-lime-600": isCorrect,
+              "text-red-600": !isCorrect,
+            })}
+            key={index}
+          >
+            {word}
+          </span>
+        );
+      })}
       {wordBank.map((word, index) => {
-        if (index === currentWordIndex) {
-          return (
-            <span className="bg-lime-200 px-1 pb-2 rounded-lg" key={index}>
-              {word}
-            </span>
-          );
-        } else {
-          return (
-            <span className="px-1 pb-2" key={index}>
-              {word}
-            </span>
-          );
-        }
+        if (index < currentWordIndex) return;
+        return (
+          <span
+            className={classNames("px-1 pb-2", {
+              "bg-lime-200 rounded-lg": index === currentWordIndex,
+              "text-blue-500": index < currentWordIndex,
+            })}
+            key={word}
+          >
+            {word}
+          </span>
+        );
       })}
     </div>
   );

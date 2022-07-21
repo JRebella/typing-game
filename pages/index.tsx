@@ -1,5 +1,4 @@
-import { GameTimer } from "components/GameTimer/GameTimer";
-import { GameInput } from "components/GameInput/GameInput";
+import { GameInput } from "components/GameInput/GameArea";
 import type { NextPage } from "next";
 import Head from "next/head";
 
@@ -15,7 +14,6 @@ const Home: NextPage = () => {
       <main className="min-h-screen m-10 flex flex-col items-start">
         <h1 className="text-4xl">Word typing game</h1>
 
-        <GameTimer />
         <GameInput />
       </main>
     </>
