@@ -16,15 +16,18 @@ export const useStopWatch = (durationInSeconds: number, onFinish?: () => void) =
   }, []);
 
   const update = () => {
-    if (count > 0) {
-      setCount((count) => count - 1);
-    } else {
-      onFinish?.();
-      setIsRunning(false);
-      if (timerIntervalID.current !== null) {
-        clearInterval(timerIntervalID.current);
+    setCount((count) => {
+      if (count > 0) {
+        return count - 1;
+      } else {
+        onFinish?.();
+        setIsRunning(false);
+        if (timerIntervalID.current !== null) {
+          clearInterval(timerIntervalID.current);
+        }
+        return 0;
       }
-    }
+    });
   };
 
   const stop = useCallback(() => {

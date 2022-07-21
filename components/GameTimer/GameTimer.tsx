@@ -6,9 +6,12 @@ import { forwardRef, useContext, useEffect } from "react";
 import styles from "./styles.module.scss";
 
 export const GameTimer = forwardRef<HTMLDivElement, {}>(function GameTimer({}, ref) {
-  const { gameState, restartGame } = useContext(GameContext);
+  const { gameState, restartGame, finishGame } = useContext(GameContext);
 
-  const { count, restart, start } = useStopWatch(CONFIG.GAME.DURATION_IN_SECONDS);
+  const { count, restart, start } = useStopWatch(
+    CONFIG.GAME.DURATION_IN_SECONDS,
+    finishGame
+  );
 
   useEffect(() => {
     if (gameState === "started") {
@@ -18,6 +21,7 @@ export const GameTimer = forwardRef<HTMLDivElement, {}>(function GameTimer({}, r
 
   return (
     <div className={styles.container}>
+      <span>Time left</span>
       <span>{count}</span>
       <button
         className="border-2 px-1 border-slate-900 rounded bg-red-200 font-bold hover:bg-red-300"

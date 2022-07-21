@@ -1,13 +1,6 @@
 import classNames from "classnames";
 import { GameContext } from "context/GameContext";
-import {
-  ChangeEventHandler,
-  ComponentPropsWithoutRef,
-  forwardRef,
-  FunctionComponent,
-  memo,
-  useContext,
-} from "react";
+import { ComponentPropsWithoutRef, FunctionComponent, useContext } from "react";
 
 interface Props extends ComponentPropsWithoutRef<"div"> {
   inputValue: string;

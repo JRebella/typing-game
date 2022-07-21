@@ -1,5 +1,5 @@
 import { CONFIG } from "config/config";
-import { createContext, PropsWithChildren, useMemo, useState } from "react";
+import { createContext, PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { shuffle } from "lodash";
 
 interface GameContextType {
@@ -31,7 +31,7 @@ export const GameContext = createContext<GameContextType>({} as GameContextType)
 export const GameContextProvider = ({ children }: PropsWithChildren<{}>) => {
   const [gameState, setGameState] = useState<GameState>("waiting");
 
-  const [wordBank, setWordBank] = useState<string[]>(CONFIG.GAME.WORD_BANK);
+  const [wordBank, setWordBank] = useState<string[]>([]);
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0);
 
   const [submittedWords, setSubmittedWords] = useState<WordResult[]>([]);
@@ -44,10 +44,11 @@ export const GameContextProvider = ({ children }: PropsWithChildren<{}>) => {
     [submittedWords]
   );
 
+  useEffect(() => {
+    setWordBank(shuffle(CONFIG.GAME.WORD_BANK));
+  }, []);
+
   const submitWord = (userInput: string) => {
-    // if (gameState === "waiting") {
-    //   setGameState("started");
-    // }
     const currentWord = wordBank[currentWordIndex];
     console.log(userInput);
     setSubmittedWords((words) => [
